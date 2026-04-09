@@ -584,7 +584,7 @@ async function doLogin() {
     const res = await fetch(API+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
     const data = await res.json();
     if (!res.ok) return showAlert('auth-alert', data.message||'Login failed');
-    token = data.data.accessToken; refreshToken = data.data.refreshToken;
+    token = data.accessToken; refreshToken = data.refreshToken;
     localStorage.setItem('ft_token',token); localStorage.setItem('ft_refresh',refreshToken);
     await loadApp();
   } catch(e) { showAlert('auth-alert','Cannot reach server. Make sure CORS is enabled on your Render backend.'); }
@@ -597,7 +597,7 @@ async function doRegister() {
     const res = await fetch(API+'/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password})});
     const data = await res.json();
     if (!res.ok) return showAlert('auth-alert', data.message||'Registration failed');
-    token = data.data.accessToken; refreshToken = data.data.refreshToken;
+    token = data.accessToken; refreshToken = data.refreshToken;
     localStorage.setItem('ft_token',token); localStorage.setItem('ft_refresh',refreshToken);
     await loadApp();
   } catch(e) { showAlert('auth-alert','Cannot reach server. Make sure CORS is enabled on your Render backend.'); }
@@ -614,7 +614,7 @@ async function loadApp() {
   try {
     const res = await apiFetch('/auth/me');
     const data = await res.json();
-    currentUser = data.data;
+    currentUser = data.user;
     $('auth-page').style.display='none'; $('app').style.display='flex';
     $('sidebar-name').textContent = currentUser.name;
     $('sidebar-role').textContent = currentUser.role;
