@@ -12,7 +12,7 @@ model User {
   name      String
   email     String   @unique
   password  String
-  role      Role     @default(VIEWER)
+  role      String   @default("VIEWER")
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -21,27 +21,16 @@ model User {
 }
 
 model FinancialRecord {
-  id          String      @id @default(cuid())
+  id          String   @id @default(cuid())
   amount      Float
-  type        RecordType
+  type        String
   category    String
   date        DateTime
   description String?
-  isDeleted   Boolean     @default(false)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  isDeleted   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   createdBy   User   @relation(fields: [createdById], references: [id])
   createdById String
-}
-
-enum Role {
-  VIEWER
-  ANALYST
-  ADMIN
-}
-
-enum RecordType {
-  INCOME
-  EXPENSE
 }
